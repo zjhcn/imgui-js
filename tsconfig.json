@@ -7,6 +7,7 @@
     "sourceMap": true,
     "declaration": true,
     "baseUrl": ".",
+    "moduleResolution": "node",
     "paths": {
       "bind-imgui": [ "build/bind-imgui" ],
     }

@@ -1,0 +1,1 @@
+declare module "imgui-js/dist/imgui_memory_editor.es.js";

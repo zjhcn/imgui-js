@@ -1,14 +1,26 @@
 {
-  "name": "imgui-js",
+  "name": "@hazel/imgui",
   "version": "1.0.0",
   "description": "JavaScript bindings for Dear ImGui using Emscripten and TypeScript",
-  "main": "imgui.js",
-  "types": "imgui.ts",
+  "main": "dist/imgui.es.js",
+  "types": "build/imgui.d.ts",
+  "exports": {
+    ".": {
+        "types": "./build/imgui.d.ts",
+        "import": "./dist/imgui.es.js",
+        "require": "./dist/imgui.umd.js"
+      },
+    "./dist/imgui_impl.es.js": "./dist/imgui_impl.es.js",
+    "./dist/imgui_demo.es.js": "./dist/imgui_demo.es.js",
+    "./dist/imgui_memory_editor.es.js": "./dist/imgui_memory_editor.es.js",
+    "./dist/*": "./dist/*.js",
+    "./*": "./*"
+  },
   "scripts": {
-    "build": "make build-bind-imgui && npm run build-imgui",
-    "clean": "make clean-bind-imgui && npm run clean-imgui",
-    "watch": "npm run watch-example",
-    "start": "npm run start-example",
+    "build": "make build-bind-imgui && pnpm run build-imgui",
+    "clean": "make clean-bind-imgui && pnpm run clean-imgui",
+    "watch": "pnpm run watch-example",
+    "start": "pnpm run start-example",
     "dist": "rollup -c",
     "build-imgui": "tsc",
     "watch-imgui": "tsc --watch",
@@ -16,7 +28,7 @@
     "build-example": "tsc -p example",
     "watch-example": "tsc -p example --watch",
     "clean-example": "echo TODO: clean-example",
-    "start-example": "npm run start-example-html",
+    "start-example": "pnpm run start-example-html",
     "start-example-html": "http-server -c-1 -o example/index.html",
     "start-example-node": "node example/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -36,6 +48,7 @@
     "rollup": "^2.41.2",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-typescript2": "^0.30.0",
+    "tslib": "^2.5.0",
     "typescript": "^4.2.3"
   }
 }

@@ -74,7 +74,7 @@ clean-bind-imgui:
 
 build/%.bc: %.cpp $(IMGUI_SOURCE_HXX)
 	mkdir -p ${@D}
-	emcc $(FLAGS) -I $(IMGUI_PATH) -c $< -o $@
+	emcc $(FLAGS) -std=c++11 -I $(IMGUI_PATH) -c $< -o $@ 
 
 build/emscripten.d.ts: src/emscripten.d.ts
 	mkdir -p ${@D}
@@ -86,7 +86,7 @@ build/bind-imgui.d.ts: src/bind-imgui.d.ts
 
 build/bind-imgui.bc: src/bind-imgui.cpp $(IMGUI_SOURCE_HXX)
 	mkdir -p ${@D}
-	emcc $(FLAGS) -I $(IMGUI_PATH) -c $< -o $@
+	emcc $(FLAGS) -std=c++11 -I $(IMGUI_PATH) -c $< -o $@
 
 build/bind-imgui.js: $(IMGUI_OUTPUT_BC) $(BIND_IMGUI_OUTPUT_BC)
 	mkdir -p ${@D}
@@ -95,26 +95,26 @@ build/bind-imgui.js: $(IMGUI_OUTPUT_BC) $(BIND_IMGUI_OUTPUT_BC)
 # imgui
 
 build-imgui:
-	npm run build-imgui
+	pnpm run build-imgui
 
 clean-imgui:
-	npm run clean-imgui
+	pnpm run clean-imgui
 
 # example
 
 build-example:
-	npm run build-example
+	# pnpm run build-example
 
 clean-example:
-	npm run clean-example
+	pnpm run clean-example
 
 start-example: start-example-node
 
 start-example-node:
-	npm run start-example-node
+	pnpm run start-example-node
 
 start-example-html:
-	npm run start-example-html
+	pnpm run start-example-html
 
 # native-example
 
@@ -128,13 +128,13 @@ IMGUI_NATIVE_EXAMPLE_CLEAN = echo $$(uname)
 IMGUI_NATIVE_EXAMPLE_START = echo $$(uname)
 ifeq ($(shell uname),Linux)
 IMGUI_NATIVE_EXAMPLE_OUTPUT = $(IMGUI_NATIVE_EXAMPLE_PATH)/example-linux
-IMGUI_NATIVE_EXAMPLE_BUILD = c++ `sdl2-config --cflags` -I $(IMGUI_NATIVE_EXAMPLE_PATH) -I $(IMGUI_PATH)/backends -I $(IMGUI_PATH) -D HAVE_MALLINFO $(IMGUI_NATIVE_EXAMPLE_SOURCE_CXX) $(IMGUI_SOURCE_CXX) `sdl2-config --libs` -lGL -o $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
+IMGUI_NATIVE_EXAMPLE_BUILD = c++ `sdl2-config --cflags -std=c++11` -I $(IMGUI_NATIVE_EXAMPLE_PATH) -I $(IMGUI_PATH)/backends -I $(IMGUI_PATH) -D HAVE_MALLINFO $(IMGUI_NATIVE_EXAMPLE_SOURCE_CXX) $(IMGUI_SOURCE_CXX) `sdl2-config --libs` -lGL -o $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
 IMGUI_NATIVE_EXAMPLE_CLEAN = rm -f $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
 IMGUI_NATIVE_EXAMPLE_START = $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
 endif
 ifeq ($(shell uname),Darwin)
 IMGUI_NATIVE_EXAMPLE_OUTPUT = $(IMGUI_NATIVE_EXAMPLE_PATH)/example-macos
-IMGUI_NATIVE_EXAMPLE_BUILD = c++ `sdl2-config --cflags` -I $(IMGUI_NATIVE_EXAMPLE_PATH) -I $(IMGUI_PATH)/backends -I $(IMGUI_PATH) $(IMGUI_NATIVE_EXAMPLE_SOURCE_CXX) $(IMGUI_SOURCE_CXX) `sdl2-config --libs` -framework OpenGl -o $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
+IMGUI_NATIVE_EXAMPLE_BUILD = c++ `sdl2-config --cflags -std=c++11` -I $(IMGUI_NATIVE_EXAMPLE_PATH) -I $(IMGUI_PATH)/backends -I $(IMGUI_PATH) $(IMGUI_NATIVE_EXAMPLE_SOURCE_CXX) $(IMGUI_SOURCE_CXX) `sdl2-config --libs` -framework OpenGl -o $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
 IMGUI_NATIVE_EXAMPLE_CLEAN = rm -f $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
 IMGUI_NATIVE_EXAMPLE_START = $(IMGUI_NATIVE_EXAMPLE_OUTPUT)
 endif
